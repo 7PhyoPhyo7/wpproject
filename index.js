@@ -83,40 +83,6 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-function textMessage(senderID,text){
-	requestify.post(sendmessageurl, {
-		"recipient":{
-		"id":senderID},
-		"message":{
-			"text":text
-		}
-	})
-}
-
-app.post('/admin', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome Admin')
-	}
-})
-
-app.post('/advisor', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome Advisor')
-	}
-})
-
-app.post('/user', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome User')
-	}
-})
-
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
