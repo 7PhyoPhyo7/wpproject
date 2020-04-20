@@ -82,7 +82,8 @@ app.post('/webhook', (req, res) => {
     		if (webhook_event.message.text) {
       var userInput=webhook_event.message.text;
 
-      if (userInput == 'Hi'){
+      if (userInput)
+         {
           textMessage(senderID,'Welcome Ko Ko')
           console.log("userinput",userInput);
          };
