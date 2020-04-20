@@ -37,15 +37,20 @@ const db = admin.firestore();
 
 function setupPersistentMenu(res){
   var messageData = { 
-      "user_level_persistent_menu":[
+      "persistent_menu":[
           {
             "locale":"default",
             "composer_input_disabled":false,
-            "call_to_actions":[       
+            "call_to_actions":[
                 {
                   "type":"postback",
-                  "title":"Modify Profile",
-                  "payload":"addtask"
+                  "title":"View My Tasks",
+                  "payload":"view-tasks"
+                },
+                {
+                  "type":"postback",
+                  "title":"Add New Task",
+                  "payload":"add-task"
                 },
                 {
                   "type":"postback",
@@ -62,12 +67,10 @@ function setupPersistentMenu(res){
   };
         
   request({
-     // url: 'https://graph.facebook.com/v6.0/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
-     url: 'https://graph.facebook.com/v6.0/me/custom_user_settings?psid=' +request.sender.id+'&access_token=' + PAGE_ACCESS_TOKEN,
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       form: messageData
-
   },
   function (error, response, body) {
       if (!error && response.statusCode == 200) {
