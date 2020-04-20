@@ -6,8 +6,9 @@ const
   body_parser = require('body-parser'),
   har = require('har-validator'),
   admin= require('firebase-admin'),
+  sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
   app = express().use(body_parser.json()); // creates express http server
-
+ 
   app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 /*
 app.get('/', (req, res)=>{
