@@ -85,6 +85,35 @@ app.get('/setpersistentmenu',function(req,res){
     setupPersistentMenu(res);    
 });
 
+
+function removePersistentMenu(res){
+  var messageData = {
+          "fields": [
+             "persistent_menu" ,
+             "get_started"                 
+          ]               
+  };  
+  request({
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      form: messageData
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {          
+          res.send(body);
+      } else {           
+          res.send(body);
+      }
+  });
+} 
+
+//Remove Get Started and Persistent Menu. To run one time
+app.get('/clear',function(req,res){    
+    removePersistentMenu(res);
+});
+
+
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
 		"recipient":{
