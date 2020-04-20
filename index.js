@@ -34,7 +34,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-
+/*
 function setupPersistentMenu(res){
   var messageData = { 
       "persistent_menu":[
@@ -86,7 +86,7 @@ app.get('/setpersistentmenu',function(req,res){
     setupPersistentMenu(res);    
 });
 
-
+*/
 function removePersistentMenu(res){
   var messageData = {
           "fields": [
