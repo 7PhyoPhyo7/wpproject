@@ -14,6 +14,17 @@ app.get('/', (req, res)=>{
 	res.send("Hello Oppa!");
 })
 */
+
+
+function textMessage(senderID,text){
+	requestify.post(sendmessageurl, {
+		"recipient":{
+		"id":senderID},
+		"message":{
+			"text":text
+		}
+	})
+}
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
 
@@ -73,14 +84,8 @@ app.post('/webhook', (req, res) => {
 
 
     	if (userInput == 'Hi'){
-          let welcomeMessage = {
-            "recipient":{
-              "id":senderID
-            },
-            "message":{
-              "text":"Hello, Welcome to Curious Wheel!"
-            }
-          }};
+          textMessage(senderID,'Welcome Admin')
+         };
 
   }}
    
