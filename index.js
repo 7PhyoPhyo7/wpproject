@@ -75,19 +75,23 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback){
         var userInput=webhook_event.postback.payload;
-    }
-    if (webhook_event.message) {if (webhook_event.message.text) {
+        }
+    if (webhook_event.message) 
+    	{
+    		if (webhook_event.message.text) {
       var userInput=webhook_event.message.text;
+
+      if (userInput == 'Hi'){
+          textMessage(senderID,'Welcome Ko Ko')
+          console.log("userinput",userInput);
+         };
+
     }
   if (webhook_event.message.attachments){
     var userMedia=webhook_event.message.attachments.payload.url;
 
 
-    	if (userInput == 'Hi'){
-          textMessage(senderID,'Welcome Admin')
-          console.log("userinput",userInput);
-         };
-
+    	
   }}
    
   });
