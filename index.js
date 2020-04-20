@@ -107,6 +107,11 @@ app.post('/webhook', (req, res) => {
     		if (webhook_event.message.text) 
     		{
       				var userInput=webhook_event.message.text;
+      				if (userInput)
+         				{
+          						textMessage(senderID,'Welcome Ko Ko')
+          						console.log("userinput",userInput);
+         				};
             }
   			if (webhook_event.message.attachments)
   			{
@@ -114,11 +119,7 @@ app.post('/webhook', (req, res) => {
 
             }
         }
-    if (userInput)
-         {
-          textMessage(senderID,'Welcome Ko Ko')
-          console.log("userinput",userInput);
-         };
+    
   });
 
     // Returns a '200 OK' response to all requests
