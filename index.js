@@ -53,9 +53,10 @@ function setupPersistentMenu(res){
                   "payload":"add-task"
                 },
                 {
-                  "type":"postback",
-                  "title":"Cancel",
-                  "payload":"cancel"
+                  "type":"web_url",
+                  "url":"https://carmodify.herokuapp.com/sell",
+                  "title":"Sell",
+                  "webview_height_ratio": "full"
                 }
           ]
       },
