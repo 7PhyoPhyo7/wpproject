@@ -36,7 +36,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 
-	requestify.post(sendmessageurl,
+	requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
 		{"get_started":{"payload":"Hi"},
 		"persistent_menu":[
 			{
@@ -83,7 +83,6 @@ function textMessage(senderID,text){
 }
 
 app.post('/admin', (req, res) => {
-	 req.setTimeout(500000);
   var userInput = req.body.userInput
   var senderID = req.body.senderID
   if(userInput){
