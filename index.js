@@ -41,12 +41,7 @@ function setupPersistentMenu(res){
           {
             "locale":"default",
             "composer_input_disabled":false,
-            "call_to_actions":[
-                {
-                  "type":"postback",
-                  "title":"Recomand Books",
-                  "payload":"viewtasks"
-                },
+            "call_to_actions":[       
                 {
                   "type":"postback",
                   "title":"Modify Profile",
