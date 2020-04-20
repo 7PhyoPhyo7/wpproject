@@ -14,8 +14,25 @@ const
 app.get('/', (req, res)=>{
 	res.send("Hello Oppa!");
 })
-*/
+*/var admin = require("firebase-admin");
+var serviceAccount = {
+  "type": "service_account",
+  "project_id": "book-c045a",
+  "private_key_id": "7d738d2479291f050228e9c4f955d7e2f5a2c4ca",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCi++yzQ1Ciq4dR\nb1oQHRJFwTBC/VESzgthfheRm9H+XlOoaY6mo2gWJePNElHUkWK7J+ft9tqFmX3J\nF/7f0EzxF//R/wF3WMIrTBEPIfPxPN5/3NTzNbCHXed3Ez+CqxIVlnClnt2BjkuG\nWVRdtYUoXQSjaH+H97E5kIPC6mg4eGftMk7n2NEEuWc3A1s9lBUxKjbkFFBquX43\nG4EcHi16rcGXUmPz33DLEE4dbGBtywIDeVmoWNV+i8yxI7eXn4TOh3bYh1K/Q/mw\nPwg5N7nYeeHpyAUC/GCalCPVjAf45RA5dOKFamUczZ9e+PBfr/JPe2SpaO82nGec\nT2MbTf3VAgMBAAECggEAAIBIyoZO9akUWe4/NyR3vWoqJVKVELs8crjKBsMVYrRU\nioSEkUOYWtUT/bnsMXye8pddUbB8HIQLzHX77SE9U1JxEWq4zO6jbjGmLcc7ckbv\nIjKCHxtPpyLlRsry24p+HD3hq8iwwqi217tnlIAt4CFlFcGI/tiGnXgxx4Qj/OR0\nnj+yqc/Abktg8SCNgv0sN1S4JY1iARI3tGl8Gc8w9hFRDrkJbF+RU/nb8pGfY1qf\nmiQEUlGMbU/+ZflkJU/jyC58b2nIgjGhyUZpMKX7cGQLa0KXqAYho/RxgbgTVFp5\ncU8nbxsUgXJCiQRAhia3eaenMYl85LTzyU6oeflwIwKBgQDhQsXqo2bCc87AgRtG\n74LU5xBc5YsSURES2kCe1HhI6/jrwPri0igUFgDmm490uXb4lmYw545mmyHk6bzL\ntNBqq5114gQ8aQRpi6cGfXBEhZUVYzCXJThJkuHHO6X9rq+3dIW64XrNtaOWTevT\nBoWo9GZlWKeuLTCo1KP7iAlHywKBgQC5OZXLKd+lDu9uzWrC8Ra1Kw5yGxWO1Wfo\n+YR5ukEujRU7bMXZiy1Cm2m0dlbw0OYyYX1KoTGqJE71KNxJpILBHNs+tXDDyQwi\nXYO5PcieI+g3flGoy50huC+NTtYY/ZgRQzkrHydZwGUiwo1hcP+QqlLOy8Kc5gsy\nssb+l9Lc3wKBgChnXK6Qbn8UXJJE1gqsLTBY3aN7/KzlY4WZJhwXChgyUyyeKaID\nhfLMW48BegK6vW8rMts0vWMEEllH33g+T1/CtnSNfKsFPyhbRzMvzrJLr4jtiKqj\nn2v674pX1Zch/RyPxujVRrydBuGPymvIcLL0W2V0OGdSbbbqpRsZtGhvAoGAC5LU\nkEhCiC7BuTuuoxWrZJCXK3wTwcQF5SHKLEz+C6mXHQpz5l7y6gmJ9lO6pPt4lsdO\nq94cm1P/dwQhl5xm6yghbu6paCJk1rTfKTD6Gx+FQAptkc1/OP8oQX0elZsq6FE5\n/j7JF6uU5jIf4WnNHj32RKOoumMJahaPppLYAyMCgYBbL33rUpMUWoVLJ9ItjiQf\n4sVzoR/l+1YRj9Jg7L7XFz5GPKTFbyfUA0p2qMJmUMRVz6tQh4m/CRP/ex/dsZft\nuRKGAvwPwaTa9PxTpX8ZhlKwIQlMBrqNqqUxr9PF81Oov7Ce9DbaNMWCUFKMSgR3\nQ2+DNOhC56g8csSEoifAUg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-f39cg@book-c045a.iam.gserviceaccount.com",
+  "client_id": "115739872973351504459",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-f39cg%40book-c045a.iam.gserviceaccount.com"
+}
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://book-c045a.firebaseio.com"
+});
 
+const db = admin.firestore();
 
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
@@ -26,6 +43,14 @@ function textMessage(senderID,text){
 		}
 	})
 }
+
+app.post('/admin', (req, res) => {
+  var userInput = req.body.userInput
+  var senderID = req.body.senderID
+  if(userInput){
+    textMessage(senderID,'Welcome Admin')
+  }
+})
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
 
@@ -79,23 +104,21 @@ app.post('/webhook', (req, res) => {
         }
     if (webhook_event.message) 
     	{
-    		if (webhook_event.message.text) {
-      var userInput=webhook_event.message.text;
+    		if (webhook_event.message.text) 
+    		{
+      				var userInput=webhook_event.message.text;
+            }
+  			if (webhook_event.message.attachments)
+  			{
+    				var userMedia=webhook_event.message.attachments.payload.url;
 
-      if (userInput)
+            }
+        }
+    if (userInput)
          {
           textMessage(senderID,'Welcome Ko Ko')
           console.log("userinput",userInput);
          };
-
-    }
-  if (webhook_event.message.attachments){
-    var userMedia=webhook_event.message.attachments.payload.url;
-
-
-    	
-  }}
-   
   });
 
     // Returns a '200 OK' response to all requests
