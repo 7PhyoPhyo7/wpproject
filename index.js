@@ -56,7 +56,7 @@ app.post('/admin', (req, res) => {
 app.post('/advisor', (req, res) => {
 	var userInput = req.body.userInput
 	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
+	if(userInput){
 		textMessage(senderID,'Welcome Advisor')
 	}
 })
@@ -64,7 +64,7 @@ app.post('/advisor', (req, res) => {
 app.post('/user', (req, res) => {
 	var userInput = req.body.userInput
 	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
+	if(userInput){
 		textMessage(senderID,'Welcome User')
 	}
 })
@@ -157,12 +157,12 @@ app.post('/webhook', (req, res) => {
 				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
 					if(advisorList.empty){
 						requestify.post('https://bophyo.herokuapp.com/user', {
-							userInput: userInput,
+							userInput: userInput|| null,
 							senderID: senderID
 						})
 					}else{
 						requestify.post('https://bophyo.herokuapp.com/advisor', {
-							userInput: userInput,
+							userInput: userInput|| null,
 							senderID: senderID,
 							video: userMedia
 						})
