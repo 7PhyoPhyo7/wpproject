@@ -37,7 +37,7 @@ const db = admin.firestore();
 
 function setupPersistentMenu(res){
   var messageData = { 
-      "persistent_menu":[
+      "user_level_persistent_menu":[
           {
             "locale":"default",
             "composer_input_disabled":false,
