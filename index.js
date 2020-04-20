@@ -5,7 +5,7 @@ const
   requestify = require('requestify'),
   body_parser = require('body-parser'),
   har = require('har-validator'),
-  admin= require('firebase-admin'),
+  //admin= require('firebase-admin'),
   sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
   app = express().use(body_parser.json()); // creates express http server
  
@@ -14,7 +14,8 @@ const
 app.get('/', (req, res)=>{
 	res.send("Hello Oppa!");
 })
-*/var admin = require("firebase-admin");
+*/
+var admin = require("firebase-admin");
 var serviceAccount = {
   "type": "service_account",
   "project_id": "book-c045a",
@@ -107,11 +108,28 @@ app.post('/webhook', (req, res) => {
     		if (webhook_event.message.text) 
     		{
       				var userInput=webhook_event.message.text;
+      				/*
       				if (userInput)
          				{
           						textMessage(senderID,'Welcome Ko Ko')
           						console.log("userinput",userInput);
          				};
+         			*/
+
+       db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
+      		if(adminList)
+      		{
+        		
+        	  requestify.post('https://bophyo.herokuapp.com/admin', {
+              userInput: userInput || null,
+              senderID: senderID,
+            })
+         	}
+        })
+
+
+
+
             }
   			if (webhook_event.message.attachments)
   			{
