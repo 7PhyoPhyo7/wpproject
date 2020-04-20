@@ -116,7 +116,8 @@ app.post('/webhook', (req, res) => {
          				};
          			*/
 
-       db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
+            }
+             db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
       		if(adminList)
       		{
         		
@@ -126,11 +127,6 @@ app.post('/webhook', (req, res) => {
             })
          	}
         })
-
-
-
-
-            }
   			if (webhook_event.message.attachments)
   			{
     				var userMedia=webhook_event.message.attachments.payload.url;
