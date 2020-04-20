@@ -52,6 +52,22 @@ app.post('/admin', (req, res) => {
     textMessage(senderID,'Welcome Admin')
   }
 })
+
+app.post('/advisor', (req, res) => {
+	var userInput = req.body.userInput
+	var senderID = req.body.senderID
+	if(userInput == 'Hi'){
+		textMessage(senderID,'Welcome Advisor')
+	}
+})
+
+app.post('/user', (req, res) => {
+	var userInput = req.body.userInput
+	var senderID = req.body.senderID
+	if(userInput == 'Hi'){
+		textMessage(senderID,'Welcome User')
+	}
+})
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
 
@@ -117,6 +133,7 @@ app.post('/webhook', (req, res) => {
          			*/
 
             }
+            /*
              db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
       		if(adminList)
       		{
@@ -127,12 +144,39 @@ app.post('/webhook', (req, res) => {
             })
          	}
         })
+        */
   			if (webhook_event.message.attachments)
   			{
     				var userMedia=webhook_event.message.attachments.payload.url;
 
             }
         }
+
+        db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
+			if(adminList.empty){
+				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
+					if(advisorList.empty){
+						requestify.post('https://bophyo.herokuapp.com/user', {
+							userInput: userInput || null,
+							senderID: senderID
+						})
+					}else{
+						requestify.post('https://bophyo.herokuapp.com/advisor', {
+							userInput: userInput || null,
+							senderID: senderID,
+							video: userMedia
+						})
+					}
+				})
+			}else{
+				requestify.post('https://bophyo.herokuapp.com/admin', {
+					userInput: userInput || null,
+					senderID: senderID,
+					image: userMedia
+				})
+			}
+		})
+	 
     
   });
 
