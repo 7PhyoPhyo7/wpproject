@@ -67,7 +67,6 @@ const db = admin.firestore();
       "text":"Hello {{user_first_name}}! \nWe provide service!!" 
     }
   ]
-
 }).then(function(success) {
 	console.log('persistent_menu.success');
 	// body...
@@ -84,6 +83,7 @@ function textMessage(senderID,text){
 }
 
 app.post('/admin', (req, res) => {
+	 req.setTimeout(500000);
   var userInput = req.body.userInput
   var senderID = req.body.senderID
   if(userInput){
