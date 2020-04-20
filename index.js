@@ -35,42 +35,55 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-
-	requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
-		{"get_started":{"payload":"Hi"},
-		"persistent_menu":[
-			{
-				"locale":"default",
-				"composer_input_disabled":false,
-				"call_to_actions":[
-				{
-					"type":"postback",
-					"title":"Recommanded Book",
-					"payload":"Hi"
-
-				},
-				{
-					"type":"web_url",
-					"title":"Visit Page",
-					"url":"https://mym-acavxb.firebaseapp.com/index.html",
-					"webview_height_ratio":"tall"
-
-				}
-			]
+function setupPersistentMenu(res){
+  var messageData = { 
+      "persistent_menu":[
+          {
+            "locale":"default",
+            "composer_input_disabled":false,
+            "call_to_actions":[
+                {
+                  "type":"postback",
+                  "title":"Recomand Books",
+                  "payload":"viewtasks"
+                },
+                {
+                  "type":"postback",
+                  "title":"Modify Profile",
+                  "payload":"addtask"
+                },
+                {
+                  "type":"postback",
+                  "title":"Cancel",
+                  "payload":"cancel"
+                }
+          ]
+      },
+      {
+        "locale":"zh_CN",
+        "composer_input_disabled":false
+      }
+    ]          
+  };
+        
+  request({
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      form: messageData
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          res.send(body);
+      } else { 
+          res.send(body);
+      }
+  });
+} 
 	
-		}
-	],
-  
-  "greeting": [
-    {
-      "locale":"default",
-      "text":"Hello {{user_first_name}}! \nWe provide service!!" 
-    }
-  ]
-}).then(function(success) {
-	console.log('persistent_menu.success');
-	// body...
-})
+app.get('/setpersistentmenu',function(req,res){
+    setupPersistentMenu(res);    
+});
 
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
