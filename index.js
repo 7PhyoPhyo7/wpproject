@@ -157,12 +157,12 @@ app.post('/webhook', (req, res) => {
 				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
 					if(advisorList.empty){
 						requestify.post('https://bophyo.herokuapp.com/user', {
-							userInput: userInput || null,
+							userInput: userInput,
 							senderID: senderID
 						})
 					}else{
 						requestify.post('https://bophyo.herokuapp.com/advisor', {
-							userInput: userInput || null,
+							userInput: userInput,
 							senderID: senderID,
 							video: userMedia
 						})
