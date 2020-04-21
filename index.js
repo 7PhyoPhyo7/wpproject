@@ -323,7 +323,7 @@ app.post('/webhook', (req, res) => {
 							image: userMedia
 						})
 						*/
-                            if(userInput == 'Hey') 
+                            if(userInput) 
                             {
                             	requestify.post(sendmessageurl,
 												   {	
