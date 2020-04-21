@@ -130,21 +130,13 @@ function  QuickReply(senderID)
 												  },
 												  
 												  "message":{
-												    "text": "Choose type:",
+												    "text": "Please Register:",
 												    "quick_replies":[
 												      {
 												        "content_type":"text",
-												        "title":"Male",
-												        "payload":"male"
+												        "title":"Register",
+												        "payload":"Request_Register"
 												        
-												      },{
-												        "content_type":"text",
-												        "title":"Female",
-												        "payload":"female"
-												      },{
-												        "content_type":"text",
-												        "title":"Small Client",
-												        "payload":"payload"
 												      }
 												    ]
 												  }
@@ -166,7 +158,7 @@ app.post('/admin', (req, res) => {
 */
 
 
-app.post('/testingquickreply', (req, res) => {
+app.post('/RegisterQuickReply', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
   if(userInput){
@@ -264,36 +256,11 @@ app.post('/webhook', (req, res) => {
                             if(userList.empty)
                             {
                      
-                            requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
-							   {	
-							   		"recipient":{
-							  	  	"id":senderID
-							  },
-							  
-							  "message":{
-							    "text": "Choose type:",
-							    "quick_replies":[
-							      {
-							        "content_type":"text",
-							        "title":"Male",
-							        "payload":"male"
-							        
-							      },{
-							        "content_type":"text",
-							        "title":"Female",
-							        "payload":"payload"
-							      },{
-							        "content_type":"text",
-							        "title":"Small Client",
-							        "payload":"payload"
-							      }
-							    ]
-							  }
-							  }).then(result=>{ console.log("ok")
-									  }).catch(err=>{console.log("err",err)}) 	
-
-											
-                        
+                           requestify.post('https://bophyo.herokuapp.com/RegisterQuickReply', {
+							userInput: userInput || null,
+							senderID: senderID,
+							image: userMedia
+						})
 
                             }
                             else
@@ -316,19 +283,14 @@ app.post('/webhook', (req, res) => {
 					}
 				})
 			}else{
-                        /*
+                        
 						requestify.post('https://bophyo.herokuapp.com/admin', {
 							userInput: userInput || null,
 							senderID: senderID,
 							image: userMedia
 						})
-						*/
-						requestify.post('https://bophyo.herokuapp.com/testingquickreply', {
-							userInput: userInput || null,
-							senderID: senderID,
-							image: userMedia
-						})
-
+						
+						
 						/*
                             if(userInput) 
                             {
