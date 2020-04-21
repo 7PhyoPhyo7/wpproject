@@ -323,8 +323,9 @@ app.post('/webhook', (req, res) => {
 							image: userMedia
 						})
 						*/
-
-							requestify.post('https://bophyo.herokuapp.com/testingquickreply',
+                            if(userInput == 'Hey') 
+                            {
+                            	requestify.post(sendmessageurl,
 												   {	
 												   		"recipient":{
 												  	  	"id":senderID
@@ -351,6 +352,8 @@ app.post('/webhook', (req, res) => {
 												  }
 												  }).then(result=>{ console.log("ok")
 														  }).catch(err=>{console.log("err",err)})
+                            }
+							
 					  
 											
 											
