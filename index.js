@@ -87,6 +87,8 @@ app.get('/setpersistentmenu',function(req,res){
 });
 
 */
+
+/*
 function removePersistentMenu(res){
   var messageData = {
           "fields": [
@@ -103,7 +105,7 @@ function removePersistentMenu(res){
   function (error, response, body) {
       if (!error && response.statusCode == 200) {          
           res.send(body);
-      } else { 								          
+      } else { 							          
           res.send(body);
       }
   });
@@ -113,8 +115,7 @@ function removePersistentMenu(res){
 app.get('/clear',function(req,res){    
     removePersistentMenu(res);
 });
-
-
+*/
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
 		"recipient":{
