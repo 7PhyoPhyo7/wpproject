@@ -9,7 +9,7 @@ const
   sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
   app = express().use(body_parser.json()); // creates express http server
  
-  app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+ 
 /*
 app.get('/', (req, res)=>{
 	res.send("Hello Oppa!");
@@ -34,85 +34,75 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-/*
-function setupPersistentMenu(res){
-  var messageData = { 
-      "persistent_menu":[
-          {
-            "locale":"default",
-            "composer_input_disabled":false,
-            "call_to_actions":[
-                {
-                  "type":"postback",
-                  "title":"View My Tasks",
-                  "payload":"view-tasks"
-                },
-                {
-                  "type":"postback",
-                  "title":"Add New Task",
-                  "payload":"add-task"
-                },
-                {
-                  "type":"web_url",
-                  "url":"https://carmodify.herokuapp.com/sell",
-                  "title":"Sell",
-                  "webview_height_ratio": "full"
-                }
-          ]
-      },
-      {
-        "locale":"zh_CN",
-        "composer_input_disabled":false
-      }
-    ]          
-  };
-        
-  request({
-      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      form: messageData
-  },
-  function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-          res.send(body);
-      } else { 
-          res.send(body);
-      }
-  });
-} 
+
+requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+		{"get_started":{"payload":"Hi"},
+		"persistent_menu":[
+			{
+				"locale":"default",
+				"composer_input_disabled":false,
+				"call_to_actions":[
+				{
+					"type":"postback",
+					"title":"Homehello",
+					"payload":"Hi"
+
+				},
+				{
+					"type":"web_url",
+					"title":"Visit Page",
+					"url":"https://mym-acavxb.firebaseapp.com/index.html",
+					"webview_height_ratio":"tall"
+
+				}
+			]
 	
-app.get('/setpersistentmenu',function(req,res){
-    setupPersistentMenu(res);    
-});
+		}
+	],
+  
+  "greeting": [
+    {
+      "locale":"default",
+      "text":"Hello {{user_first_name}}! \nWe provide service!!" 
+    }
+  ]
 
-*/
+}).then(function(success) {
+	console.log('persistent_menu.success');
+	// body...
+})
 
+ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-function removePersistentMenu(res){
-  var messageData = {
-          "fields": [
-             "persistent_menu"                            
-          ]               
-  };  
-  request({
-      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
-      method: 'DELETE',
-      headers: {'Content-Type': 'application/json'},
-      form: messageData
-  },
-  function (error, response, body) {
-      if (!error && response.statusCode == 200) {          
-          res.send(body);
-      } else { 							          
-          res.send(body);
-      }
-  });
-} 
+ // Accepts GET requests at the /webhook endpoint
+app.get('/webhook', (req, res) => {
 
-//Remove Get Started and Persistent Menu. To run one time
-app.get('/clear',function(req,res){    
-    removePersistentMenu(res);
+   // req.status(200).send('Request received');
+
+  /** UPDATE YOUR VERIFY TOKEN **/
+  const VERIFY_TOKEN = process.env.VERIFICATION_TOKEN;
+  
+
+  // Parse params from the webhook verification request
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challenge = req.query['hub.challenge'];
+
+  // Check if a token and mode were sent
+  if (mode && token) {
+
+    // Check the mode and token sent are correct
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+
+      // Respond with 200 OK and challenge token from the request
+      console.log('WEBHOOK_VERIFIED');
+      res.status(200).send(challenge);
+
+    } else {
+      // Responds with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
+  }
 });
 
 function textMessage(senderID,text){
@@ -148,36 +138,7 @@ app.post('/user', (req, res) => {
 		textMessage(senderID,'Welcome User')
 	}
 })
-// Accepts GET requests at the /webhook endpoint
-app.get('/webhook', (req, res) => {
 
-   // req.status(200).send('Request received');
-
-  /** UPDATE YOUR VERIFY TOKEN **/
-  const VERIFY_TOKEN = process.env.VERIFICATION_TOKEN;
-  
-
-  // Parse params from the webhook verification request
-  let mode = req.query['hub.mode'];
-  let token = req.query['hub.verify_token'];
-  let challenge = req.query['hub.challenge'];
-
-  // Check if a token and mode were sent
-  if (mode && token) {
-
-    // Check the mode and token sent are correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
-      // Respond with 200 OK and challenge token from the request
-      console.log('WEBHOOK_VERIFIED');
-      res.status(200).send(challenge);
-
-    } else {
-      // Responds with '403 Forbidden' if verify tokens do not match
-      res.sendStatus(403);
-    }
-  }
-});
 
 
 app.post('/webhook', (req, res) => {  
