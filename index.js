@@ -164,6 +164,38 @@ app.post('/RegisterQuickReply', (req, res) => {
   if(userInput){
    QuickReply(senderID);
   }
+
+
+requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+{
+	"persistent_menu":[
+			{
+				"locale":"default",
+				"composer_input_disabled":false,
+				"call_to_actions":[
+				{
+					"type":"postback",
+					"title":"After Regi",
+					"payload":"Hit"
+
+				},
+				{
+					"type":"web_url",
+					"title":"Visit Page",
+					"url":"https://mym-acavxb.firebaseapp.com/index.html",
+					"webview_height_ratio":"tall"
+
+				}
+			]
+	
+		}
+	]
+}).then(function(success) {
+	console.log('persistent_menu.success');
+	// body...
+})
+
+
 })
 
 /*
