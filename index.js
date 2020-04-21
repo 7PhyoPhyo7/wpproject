@@ -123,7 +123,6 @@ function textMessage(senderID,text){
 
 function  QuickReply(senderID)
 {
-
 	 requestify.post('https://bophyo.herokuapp.com/testingquickreply',
 												   {	
 												   		"recipient":{
@@ -166,7 +165,7 @@ app.post('/admin', (req, res) => {
 })
 */
 
-
+/*
 app.post('/testingquickreply', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
@@ -174,7 +173,7 @@ app.post('/testingquickreply', (req, res) => {
    QuickReply(senderID);
   }
 })
-
+*/
 /*
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
@@ -325,11 +324,33 @@ app.post('/webhook', (req, res) => {
 						})
 						*/
 
-							requestify.post('https://bophyo.herokuapp.com/testingquickreply', {
-							userInput: userInput || null,
-							senderID: senderID,
-							image: userMedia
-						})
+							requestify.post('https://bophyo.herokuapp.com/testingquickreply',
+												   {	
+												   		"recipient":{
+												  	  	"id":senderID
+												  },
+												  
+												  "message":{
+												    "text": "Choose type:",
+												    "quick_replies":[
+												      {
+												        "content_type":"text",
+												        "title":"Male",
+												        "payload":"male"
+												        
+												      },{
+												        "content_type":"text",
+												        "title":"Female",
+												        "payload":"female"
+												      },{
+												        "content_type":"text",
+												        "title":"Small Client",
+												        "payload":"payload"
+												      }
+												    ]
+												  }
+												  }).then(result=>{ console.log("ok")
+														  }).catch(err=>{console.log("err",err)})
 					  
 											
 											
