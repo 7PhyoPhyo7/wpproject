@@ -121,6 +121,42 @@ function textMessage(senderID,text){
 	})
 }
 
+function  QuickReply(senderID)
+{
+
+	 requestify.post('https://bophyo.herokuapp.com/testingquickreply',
+												   {	
+												   		"recipient":{
+												  	  	"id":senderID
+												  },
+												  
+												  "message":{
+												    "text": "Choose type:",
+												    "quick_replies":[
+												      {
+												        "content_type":"text",
+												        "title":"Male",
+												        "payload":"male"
+												        
+												      },{
+												        "content_type":"text",
+												        "title":"Female",
+												        "payload":"female"
+												      },{
+												        "content_type":"text",
+												        "title":"Small Client",
+												        "payload":"payload"
+												      }
+												    ]
+												  }
+												  }).then(result=>{ console.log("ok")
+														  }).catch(err=>{console.log("err",err)})
+											
+
+
+}
+
+/*
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
@@ -128,6 +164,27 @@ app.post('/admin', (req, res) => {
     textMessage(senderID,'Welcome Admin')
   }
 })
+*/
+
+
+app.post('/testingquickreply', (req, res) => {
+  var userInput = req.body.userInput
+  var senderID = req.body.senderID
+  if(userInput){
+   QuickReply(senderID);
+  }
+})
+
+/*
+app.post('/admin', (req, res) => {
+  var userInput = req.body.userInput
+  var senderID = req.body.senderID
+  if(userInput){
+    textMessage(senderID,'Welcome Admin')
+  }
+})
+
+*/
 
 app.post('/advisor', (req, res) => {
 	var userInput = req.body.userInput
@@ -220,7 +277,7 @@ app.post('/webhook', (req, res) => {
 							      {
 							        "content_type":"text",
 							        "title":"Male",
-							        "payload":"payload"
+							        "payload":"male"
 							        
 							      },{
 							        "content_type":"text",
@@ -260,12 +317,23 @@ app.post('/webhook', (req, res) => {
 					}
 				})
 			}else{
-                         
+                        /*
 						requestify.post('https://bophyo.herokuapp.com/admin', {
 							userInput: userInput || null,
 							senderID: senderID,
 							image: userMedia
 						})
+						*/
+
+							requestify.post('https://bophyo.herokuapp.com/testingquickreply', {
+							userInput: userInput || null,
+							senderID: senderID,
+							image: userMedia
+						})
+					  
+											
+											
+
 
 				 }
 		})
