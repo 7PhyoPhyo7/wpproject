@@ -49,6 +49,12 @@ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_tok
 
 				},
 				{
+					"type":"postback",
+					"title":"Chit Chit",
+					"payload":"Hi"
+
+				},
+				{
 					"type":"web_url",
 					"title":"Visit Page",
 					"url":"https://mym-acavxb.firebaseapp.com/index.html",
