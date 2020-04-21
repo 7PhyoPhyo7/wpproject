@@ -161,7 +161,7 @@ app.post('/admin', (req, res) => {
 app.post('/RegisterQuickReply', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
-  if(userInput){
+  if(userInput == 'Hi'){
    QuickReply(senderID);
   }
 
