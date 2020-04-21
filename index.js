@@ -147,7 +147,7 @@ function  QuickReply(senderID)
 
 }
 
-/*
+
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
@@ -155,7 +155,7 @@ app.post('/admin', (req, res) => {
     textMessage(senderID,'Welcome Admin')
   }
 })
-*/
+
 
 
 app.post('/RegisterQuickReply', (req, res) => {
