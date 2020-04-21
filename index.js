@@ -260,47 +260,12 @@ app.post('/webhook', (req, res) => {
 					}
 				})
 			}else{
-                         /*
+                         
 						requestify.post('https://bophyo.herokuapp.com/admin', {
 							userInput: userInput || null,
 							senderID: senderID,
 							image: userMedia
 						})
-						*/
-
-							requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
-							   {	
-							   		"recipient":{
-							  	  	"id":senderID
-							  },
-							  
-							  "message":{
-							    "text": "Choose type:",
-							    "quick_replies":[
-							      {
-							        "content_type":"text",
-							        "title":"Male",
-							        "payload":"payload"
-							        
-							      },{
-							        "content_type":"text",
-							        "title":"Female",
-							        "payload":"payload"
-							      },{
-							        "content_type":"text",
-							        "title":"Small Client",
-							        "payload":"payload"
-							      }
-							    ]
-							  }
-							  }).then(result=>{ console.log("ok")
-									  }).catch(err=>{console.log("err",err)}) 	
-
-
-
-
-
-
 
 				 }
 		})
