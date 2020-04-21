@@ -45,13 +45,13 @@ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_tok
 				{
 					"type":"postback",
 					"title":"Homehello",
-					"payload":"Hi"
+					"payload":"Hit"
 
 				},
 				{
 					"type":"postback",
 					"title":"Chit Chit",
-					"payload":"Hi"
+					"payload":"Hit"
 
 				},
 				{
@@ -202,12 +202,56 @@ app.post('/webhook', (req, res) => {
         db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty){
 				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
-					if(advisorList.empty){
-						requestify.post('https://bophyo.herokuapp.com/user', {
+					if(advisorList.empty)
+					{
+						db.collection('user').where('id','==',`${senderID}`).get().then(userList => {
+                            if(userList.empty)
+                            {
+                     
+                            requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+							   {	
+							   		"recipient":{
+							  	  	"id":senderID
+							  },
+							  
+							  "message":{
+							    "text": "Choose type:",
+							    "quick_replies":[
+							      {
+							        "content_type":"text",
+							        "title":"Male",
+							        "payload":"payload"
+							        
+							      },{
+							        "content_type":"text",
+							        "title":"Female",
+							        "payload":"payload"
+							      },{
+							        "content_type":"text",
+							        "title":"Small Client",
+							        "payload":"payload"
+							      }
+							    ]
+							  }
+							  }).then(result=>{ console.log("ok")
+									  }).catch(err=>{console.log("err",err)}) 	
+
+											
+                        
+
+                            }
+                            else
+                            {
+                            requestify.post('https://bophyo.herokuapp.com/user', {
 							userInput: userInput|| null,
 							senderID: senderID
+							})
+                            }
 						})
-					}else{
+						
+					}
+					else
+					{
 						requestify.post('https://bophyo.herokuapp.com/advisor', {
 							userInput: userInput|| null,
 							senderID: senderID,
@@ -216,12 +260,49 @@ app.post('/webhook', (req, res) => {
 					}
 				})
 			}else{
-				requestify.post('https://bophyo.herokuapp.com/admin', {
-					userInput: userInput || null,
-					senderID: senderID,
-					image: userMedia
-				})
-			}
+                         /*
+						requestify.post('https://bophyo.herokuapp.com/admin', {
+							userInput: userInput || null,
+							senderID: senderID,
+							image: userMedia
+						})
+						*/
+
+							requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+							   {	
+							   		"recipient":{
+							  	  	"id":senderID
+							  },
+							  
+							  "message":{
+							    "text": "Choose type:",
+							    "quick_replies":[
+							      {
+							        "content_type":"text",
+							        "title":"Male",
+							        "payload":"payload"
+							        
+							      },{
+							        "content_type":"text",
+							        "title":"Female",
+							        "payload":"payload"
+							      },{
+							        "content_type":"text",
+							        "title":"Small Client",
+							        "payload":"payload"
+							      }
+							    ]
+							  }
+							  }).then(result=>{ console.log("ok")
+									  }).catch(err=>{console.log("err",err)}) 	
+
+
+
+
+
+
+
+				 }
 		})
 	 
     
