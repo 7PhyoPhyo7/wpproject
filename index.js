@@ -163,10 +163,8 @@ app.post('/RegisterQuickReply', (req, res) => {
   var senderID = req.body.senderID
   if(userInput == 'Hi'){
    QuickReply(senderID);
-  }
 
-
-requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+   requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
 {
 	"persistent_menu":[
 			{
@@ -194,6 +192,10 @@ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_tok
 	console.log('persistent_menu.success');
 	// body...
 })
+  }
+
+
+
 
 
 })
