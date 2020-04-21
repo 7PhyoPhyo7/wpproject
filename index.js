@@ -88,16 +88,15 @@ app.get('/setpersistentmenu',function(req,res){
 
 */
 
-/*
+
 function removePersistentMenu(res){
   var messageData = {
           "fields": [
-             "persistent_menu" ,
-             "get_started"                 
+             "persistent_menu"                            
           ]               
   };  
   request({
-      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},
       form: messageData
@@ -115,7 +114,7 @@ function removePersistentMenu(res){
 app.get('/clear',function(req,res){    
     removePersistentMenu(res);
 });
-*/
+
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
 		"recipient":{
