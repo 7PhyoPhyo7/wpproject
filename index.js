@@ -4,6 +4,7 @@ const
   express = require('express'),
   requestify = require('requestify'),
   body_parser = require('body-parser'),
+  ejs = require("ejs"),
   har = require('har-validator'),
   //admin= require('firebase-admin'),
   sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
@@ -15,6 +16,10 @@ app.get('/', (req, res)=>{
 	res.send("Hello Oppa!");
 })
 */
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname+'/views');
+
 var admin = require("firebase-admin");
 var serviceAccount = {
   "type": "service_account",
@@ -111,6 +116,52 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+
+
+//webview user_register
+app.get('/register_user/:sender_id',function(req,res){
+    const sender_id = req.params.sender_id;
+    res.render('register_user.ejs',{title:"Hello!! from WebView", sender_id:sender_id});
+});
+
+app.post('/register_user',upload.single('file'),function(req,res){
+       
+      let name  = req.body.name;
+      let email = req.body.email;
+
+     // let img_url = APP_URL + "/" + req.file.path;
+      let sender = req.body.sender;    
+      let hobby = req.body.result;
+
+      /*
+      bucket.upload(img_url, function(err, file, apiResponse) {
+          console.log("UPLOADED TO BUCKET");
+      }); 
+      */  
+      /*
+      bucket.upload(img_url).then(data => {
+      console.log('upload success');
+      }).catch(err => {
+          console.log('error uploading to storage', err);
+      });
+
+      */  
+      
+      db.collection('user').add({
+            name: name,
+            email: email,
+            hobby: result
+          }).then(success => {   
+             console.log("DATA SAVED")
+             thankyouReply(sender, name, email,result);    
+          }).catch(error => {
+            console.log(error);
+      });        
+});
+
+
+
+
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
 		"recipient":{
@@ -133,11 +184,11 @@ function  QuickReply(senderID)
 												    "text": "Please Register:",
 												    "quick_replies":[
 												      {
-												        "content_type":"text",
+												        "content_type":"web_url",
 												        "title":"Register",
-												        "payload":"Request_Register"
-												        
-												      }
+												        "payload":"Request_Register",
+												         "url":"https://bophyo.herokuapp.com/register_user/"+sender_psid
+												        }
 												    ]
 												  }
 												  }).then(result=>{ console.log("ok")
