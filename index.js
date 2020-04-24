@@ -240,7 +240,7 @@ app.post('/admin', (req, res) => {
 })
 
 */
-app.post('/bookregister',(req,res) =>
+app.post('/addbutton',(req,res) =>
 {
   var senderID = req.body.senderID;
   var userInput = req.body.userInput;
@@ -427,7 +427,7 @@ app.post('/webhook', (req, res) => {
 
             if(userInput == 'register_book')
             {
-              requestify.post('https://bophyo.herokuapp.com/bookregister',{
+              requestify.post('https://bophyo.herokuapp.com/addbutton',{
               userInput: userInput || null,
               senderID: senderID,
 
