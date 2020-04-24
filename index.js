@@ -430,8 +430,11 @@ app.post('/webhook', (req, res) => {
               requestify.post('https://bophyo.herokuapp.com/bookregister',{
               userInput: userInput || null,
               senderID: senderID,
+
               
             })
+              console.log("First UserInput", userInput);
+              console.log("Second SenderID",senderID);
             }
 
 
