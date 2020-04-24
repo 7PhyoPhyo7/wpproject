@@ -6,6 +6,7 @@ const
   body_parser = require('body-parser'),
   request = require('request'),
   ejs = require("ejs"),
+  fs = require('fs'),
   har = require('har-validator'),
   promise = require('promise'),
  // q = require('q');
