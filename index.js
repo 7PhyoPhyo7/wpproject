@@ -479,7 +479,8 @@ const callSendAPI = (sender_psid, response) => {
   
   return new Promise(resolve => {
     try
-    {
+  {
+    /*
     request({
       "uri": "https://graph.facebook.com/v2.6/me/messages",
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
@@ -492,9 +493,23 @@ const callSendAPI = (sender_psid, response) => {
         console.error("Unable to send message:" + err);
       }
     });
-    }
+    */
+  request({
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      form: message
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          res.send(body);
+      } else { 
+          res.send(body);
+      }
+  });
+  }
     catch (err) {
-        console.error("catch error:" + err)
+    console.error("catch error:" + err)
   } 
   });
 }
