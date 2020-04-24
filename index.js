@@ -206,7 +206,7 @@ function  QuickReply(senderID)
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
-  if(userInput == 'hello'){
+  if(userInput){
     textMessage(senderID,'Welcome Admin')
   }
   
