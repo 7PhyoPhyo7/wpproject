@@ -312,7 +312,7 @@ function RegisterBook(sender_psid){
 
 
 function RegisterBook(sender_psid){
- requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+ requestify.post('https://graph.facebook.com/v6.0/me/messages?psid='+sender_psid+'&access_token='+PAGE_ACCESS_TOKEN,
   {
     "recipient":{
       "id":sender_psid
