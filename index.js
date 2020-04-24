@@ -242,7 +242,9 @@ app.post('/admin', (req, res) => {
 */
 app.post('/bookregister',(req,res) =>
 {
-  var senderID = req.body.sender_psid;
+  var senderID = req.body.senderID;
+  var userInput = req.body.userInput;
+   if(userInput == 'register_book')
    RegisterBook(senderID);
 }
 
@@ -319,7 +321,7 @@ function RegisterBook(sender_psid){
 
 
 function RegisterBook(sender_psid){
- requestify.post('https://graph.facebook.com/v6.0/me/messages?psid='+sender_psid+'&access_token='+PAGE_ACCESS_TOKEN,
+ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
   {
     "recipient":{
       "id":sender_psid
@@ -373,7 +375,7 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback){
         var userInput=webhook_event.postback.payload;
-
+     /*
          if(userInput == 'register_book')
        {
 
@@ -381,6 +383,7 @@ app.post('/webhook', (req, res) => {
         console.log('message','CHIT SONE LYY KO KO');
 
        }
+      */
 
         }
     if (webhook_event.message) 
@@ -409,6 +412,10 @@ app.post('/webhook', (req, res) => {
          	}
         })
         */
+
+
+
+
   			if (webhook_event.message.attachments)
   			{
     				var userMedia=webhook_event.message.attachments.payload.url;
@@ -417,6 +424,16 @@ app.post('/webhook', (req, res) => {
         }
 
       
+
+            if(userInput == 'register_book')
+            {
+              requestify.post('https://bophyo.herokuapp.com/bookregister',{
+              userInput: userInput || null,
+              senderID: senderID,
+              
+            })
+            }
+
 
         db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty){
