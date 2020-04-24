@@ -330,7 +330,7 @@ function RegisterBook(sender_psid){
                   {
                      "type": "web_url",
                     "title": "Register",
-                   "url":"https://bophyo.herokuapp.com/bookregister/"+sender_psid,
+                   "url":"https://bophyo.herokuapp.com/bookregister/",
                    "webview_height_ratio": "full",
                    "messenger_extensions": true, 
                   }
