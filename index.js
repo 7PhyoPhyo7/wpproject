@@ -6,7 +6,7 @@ const
   body_parser = require('body-parser'),
   ejs = require("ejs"),
   har = require('har-validator'),
-  q = require('q');
+ // q = require('q');
   //admin= require('firebase-admin'),
   sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
   app = express().use(body_parser.json()); // creates express http server
