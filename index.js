@@ -6,6 +6,7 @@ const
   body_parser = require('body-parser'),
   ejs = require("ejs"),
   har = require('har-validator'),
+  promise = require('promise'),
  // q = require('q');
   //admin= require('firebase-admin'),
   sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
@@ -471,7 +472,7 @@ const callSendAPI = (sender_psid, response) => {
     "message": response
   }
   
-  return new Promise(resolve => {
+  return promise(resolve => {
     try
     {
     request({
