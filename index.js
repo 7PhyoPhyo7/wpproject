@@ -240,6 +240,13 @@ app.post('/admin', (req, res) => {
 })
 
 */
+app.post('/bookregister',(req,res) =>
+{
+  var senderID = req.body.sender_psid;
+   RegisterBook(senderID);
+}
+
+  )
 
 app.post('/advisor', (req, res) => {
 	var userInput = req.body.userInput
@@ -343,6 +350,8 @@ function RegisterBook(sender_psid){
   })
  
   console.log('button_sender',sender_psid);
+
+
 
 }
 
