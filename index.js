@@ -487,6 +487,12 @@ const callSendAPI = (sender_psid, response) => {
 }
 
 async function callSend(sender_psid, response){
+  try
+  {
   let send = await callSendAPI(sender_psid, response);
   return 1;
+  }
+  catch (err) {
+    next(err);
+  }
 }
