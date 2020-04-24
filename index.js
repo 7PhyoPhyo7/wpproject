@@ -245,7 +245,10 @@ app.post('/addbutton',(req,res) =>
   var senderID = req.body.senderID;
   var userInput = req.body.userInput;
    if(userInput == 'register_book')
-   RegisterBook(senderID);
+   {
+   //RegisterBook(senderID);
+     QuickReply(senderID);
+   }
 }
 
   )
@@ -266,6 +269,7 @@ app.post('/user', (req, res) => {
 	}
 })
 
+/*
 app.get('/bookregister/:sender_id',function(req,res){    
     const sender_id = req.params.sender_id;
     res.render('registerbook.ejs',{title:"Register Book", sender_id:sender_id});
@@ -288,6 +292,7 @@ app.post('/bookregister',function(req,res){
             console.log(error);
       });        
 });
+*/
 
 /*
 function RegisterBook(sender_psid){
@@ -321,7 +326,7 @@ function RegisterBook(sender_psid){
 
 
 function RegisterBook(sender_psid){
- requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+ requestify.post('https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_ACCESS_TOKEN,
   {
     "recipient":{
       "id":sender_psid
@@ -337,11 +342,12 @@ function RegisterBook(sender_psid){
               "subtitle":"Worker must go to the tent and view the tent condition and report to me.",
                 "buttons":[
                   {
-                     "type": "web_url",
+                     "type": "postback",
                     "title": "Register",
-                   "url":"https://bophyo.herokuapp.com/bookregister/",
-                   "webview_height_ratio": "full",
-                   "messenger_extensions": true, 
+                    "payload" : "Fake"
+                  // "url":"https://bophyo.herokuapp.com/bookregister/",
+                  // "webview_height_ratio": "full",
+                  // "messenger_extensions": true, 
                   }
                ]}
 
