@@ -304,6 +304,8 @@ function RegisterBook(sender_psid){
         }
       }
     }
+  console.log('buttons',response);
+  console.log('button_sender',sender_psid);
   callSendAPI(sender_psid, response);
 }
 
