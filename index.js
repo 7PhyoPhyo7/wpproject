@@ -40,36 +40,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
-		{"get_started":{"payload":"Hii"},
-		"persistent_menu":[
-			{
-				"locale":"default",
-				"composer_input_disabled":false,
-				"call_to_actions":[
-				{
-					"type":"postback",
-					"title":"Homehello",
-					"payload":"Hit"
-
-				},
-				{
-					"type":"postback",
-					"title":"Chit Chit",
-					"payload":"Hit"
-
-				},
-				{
-					"type":"web_url",
-					"title":"Visit Page",
-					"url":"https://mym-acavxb.firebaseapp.com/index.html",
-					"webview_height_ratio":"tall"
-
-				}
-			]
-	
-		}
-	],
-  
+		{"get_started":{"payload":"Hii"},  
   "greeting": [
     {
       "locale":"default",
@@ -182,7 +153,7 @@ app.post('/admin', (req, res) => {
         {
           "type":"postback",
           "title":"Register Books",
-          "payload":"Hit1"
+          "payload":"register_book"
 
         },
         {
@@ -282,7 +253,55 @@ app.post('/user', (req, res) => {
 	}
 })
 
+app.get('/bookregister/:sender_id',function(req,res){    
+    const sender_id = req.params.sender_id;
+    res.render('registerbook.ejs',{title:"Register Book", sender_id:sender_id});
+});
 
+
+app.post('/bookregister',function(req,res){
+      let phno = req.body.phnum;
+      let email = req.body.email;
+      let sender = req.body.sender;
+      console.log("PhNO",phnum);
+      console.log("Email",email);
+      console.log("Sender",sender);
+      db.collection('Book').add({
+            email:email,
+            phno:phno            
+          }).then(success => {             
+             ThankYouEagle(sender);    
+          }).catch(error => {
+            console.log(error);
+      });        
+});
+
+
+function RegisterBook(sender_psid){
+  let response;
+  response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Please Register Books!",                       
+            "buttons": [              
+              {
+                "type": "web_url",
+                "title": "Register",
+                "url":"https://bophyo.herokuapp.com/bookregister/"+sender_psid,
+                 "webview_height_ratio": "full",
+                "messenger_extensions": true,          
+              },
+              
+            ],
+          }]
+        }
+      }
+    }
+  callSendAPI(sender_psid, response);
+}
 
 app.post('/webhook', (req, res) => {  
  
@@ -302,9 +321,6 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback){
         var userInput=webhook_event.postback.payload;
-               
-
-
         }
     if (webhook_event.message) 
     	{
@@ -338,6 +354,13 @@ app.post('/webhook', (req, res) => {
 
             }
         }
+
+       if(userInput == 'register_book')
+       {
+
+        RegisterBook(senderID);
+
+       }
 
         db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty){
@@ -435,3 +458,32 @@ app.post('/webhook', (req, res) => {
   }
 
 });
+
+const callSendAPI = (sender_psid, response) => {  
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
+  
+  return new Promise(resolve => {
+    request({
+      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "qs": { "access_token": PAGE_ACCESS_TOKEN },
+      "method": "POST",
+      "json": request_body
+    }, (err, res, body) => {
+      if (!err) {
+        resolve('message sent!')
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }); 
+  });
+}
+
+async function callSend(sender_psid, response){
+  let send = await callSendAPI(sender_psid, response);
+  return 1;
+}

@@ -34,28 +34,15 @@
   
 	<h1><%= title %></h1>
 
-  <form id="form" enctype="multipart/form-data" method="post" action="https://bophyo.herokuapp.com/webview/">
+  <form id="form" enctype="multipart/form-data" method="post" action="https://bophyo.herokuapp.com/bookregister/">
   <div class="form-group">
+  
     <label for="email">Email</label>
     <input type="email" class="form-control" id="email" name="email" placeholder="Email">
   </div> 
   <div class="form-group">
     <label for="phno">Phone Name</label>
     <input type="number" name="phnum" />
-  </div>
-  <div class="form-group">
-  <label for="hobby"> Hobby & Interest </label> 
-
-  <input type="checkbox" id="hobby1" class="checks" name="hobby1" value="Horror">
-  <label for="vehicle1"> Horror </label><br>
-
-  <input type="checkbox" id="hobby2" class="checks" name="hobby2" value="Romance">
-  <label for="vehicle2"> Romance </label><br>
-
-  <input type="checkbox" id="hobby3" name="hobby3" class="checks" value="Advanceture">
-  <label for="vehicle3"> Advanceture </label><br><br>
-
-  </div>
 
   <input type="hidden"  id="sender" name="sender" value="<%= sender_id %>">
   
@@ -75,7 +62,7 @@
         });
       }
 
-     
+     /*
        var result[];
        function getValue()
        {
@@ -89,7 +76,7 @@
           } 
          }
        }
-
+*/
       
       document.getElementById("form").addEventListener("submit", windowShut);       
 
