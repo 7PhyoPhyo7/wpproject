@@ -489,7 +489,7 @@ const callSendAPI = (sender_psid, response) => {
     });
     }
     catch (err) {
-    next(err);
+        console.error("catch error:" + err)
   } 
   });
 }
