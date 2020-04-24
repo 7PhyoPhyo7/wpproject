@@ -280,7 +280,7 @@ app.post('/bookregister',function(req,res){
       });        
 });
 
-
+/*
 function RegisterBook(sender_psid){
   let response;
   response = {
@@ -307,6 +307,43 @@ function RegisterBook(sender_psid){
   console.log('buttons',response);
   console.log('button_sender',sender_psid);
   callSendAPI(sender_psid, response);
+}
+*/
+
+
+function RegisterBook(sender_psid){
+ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
+  {
+    "recipient":{
+      "id":sender_psid
+    },
+  "message":{
+   "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Please Register ",
+              "subtitle":"Worker must go to the tent and view the tent condition and report to me.",
+                "buttons":[
+                  {
+                     "type": "web_url",
+                    "title": "Register",
+                   "url":"https://bophyo.herokuapp.com/bookregister/"+sender_psid,
+                   "webview_height_ratio": "full",
+                   "messenger_extensions": true, 
+                  }
+               ]}
+
+        ]
+      }
+    }
+  }
+  })
+ 
+  console.log('button_sender',sender_psid);
+
 }
 
 app.post('/webhook', (req, res) => {  
