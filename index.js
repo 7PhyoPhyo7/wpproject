@@ -472,7 +472,7 @@ const callSendAPI = (sender_psid, response) => {
     "message": response
   }
   
-  return promise(resolve => {
+  return new Promise(resolve => {
     try
     {
     request({
