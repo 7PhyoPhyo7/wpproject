@@ -156,7 +156,7 @@ app.post('/admin', (req, res) => {
         "call_to_actions":[
         {
           "type":"postback",
-          "title":"Register Book",
+          "title":"Register Books",
           "payload":"register_book"
 
         },
