@@ -40,7 +40,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
-		{"get_started":{"payload":"Hii"},  
+		{"get_started":{"payload":"Hi"},  
   "greeting": [
     {
       "locale":"default",
@@ -137,7 +137,7 @@ function  QuickReply(senderID)
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
-  if(userInput){
+  if(userInput == 'Hi'){
     textMessage(senderID,'Welcome Admin')
   }
   
@@ -152,7 +152,7 @@ app.post('/admin', (req, res) => {
         "call_to_actions":[
         {
           "type":"postback",
-          "title":"Register Books",
+          "title":"Register Book",
           "payload":"register_book"
 
         },
@@ -321,6 +321,14 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback){
         var userInput=webhook_event.postback.payload;
+
+         if(userInput == 'register_book')
+       {
+
+        RegisterBook(senderID);
+
+       }
+
         }
     if (webhook_event.message) 
     	{
@@ -355,12 +363,7 @@ app.post('/webhook', (req, res) => {
             }
         }
 
-       if(userInput == 'register_book')
-       {
-
-        RegisterBook(senderID);
-
-       }
+      
 
         db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty){
