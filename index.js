@@ -17,8 +17,7 @@ app.get('/', (req, res)=>{
 })
 */
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname+'/views');
+
 
 var admin = require("firebase-admin");
 var serviceAccount = {
@@ -119,45 +118,6 @@ app.get('/webhook', (req, res) => {
 
 
 //webview user_register
-app.get('/register_user/:sender_id',function(req,res){
-    const sender_id = req.params.sender_id;
-    res.render('register_user.ejs',{title:"Hello!! from WebView", sender_id:sender_id});
-});
-
-app.post('/register_user',upload.single('file'),function(req,res){
-       
-      let name  = req.body.name;
-      let email = req.body.email;
-
-     // let img_url = APP_URL + "/" + req.file.path;
-      let sender = req.body.sender;    
-      let hobby = req.body.result;
-
-      /*
-      bucket.upload(img_url, function(err, file, apiResponse) {
-          console.log("UPLOADED TO BUCKET");
-      }); 
-      */  
-      /*
-      bucket.upload(img_url).then(data => {
-      console.log('upload success');
-      }).catch(err => {
-          console.log('error uploading to storage', err);
-      });
-
-      */  
-      
-      db.collection('user').add({
-            name: name,
-            email: email,
-            hobby: result
-          }).then(success => {   
-             console.log("DATA SAVED")
-             thankyouReply(sender, name, email,result);    
-          }).catch(error => {
-            console.log(error);
-      });        
-});
 
 
 
