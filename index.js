@@ -184,14 +184,18 @@ function  QuickReply(senderID)
 												    "text": "Please Register:",
 												    "quick_replies":[
 												      {
-												        "content_type":"web_url",
-												        "title":"Register",
-												        "payload":"Request_Register",
-												         "url":"https://bophyo.herokuapp.com/register_user/"+sender_psid
-												        }
+												        "content_type":"messaging",
+												        "title":"Admin",
+												        "payload":"register_admin",
+												      },
+                              {
+                                "content_type":"messaging",
+                                "title":"User",
+                                "payload":"register_user",
+                              }
 												    ]
 												  }
-												  }).then(result=>{ console.log("ok")
+												  }).then(result=>{ console.log(" quick reply ok")
 														  }).catch(err=>{console.log("err",err)})
 											
 
@@ -202,9 +206,49 @@ function  QuickReply(senderID)
 app.post('/admin', (req, res) => {
   var userInput = req.body.userInput
   var senderID = req.body.senderID
-  if(userInput){
+  if(userInput == 'hello'){
     textMessage(senderID,'Welcome Admin')
   }
+  
+   
+   requestify.post('https://graph.facebook.com/v6.0/me/custom_user_settings?psid='+senderID+'&access_token='+PAGE_ACCESS_TOKEN,
+
+{
+  "persistent_menu":[
+      {
+        "locale":"default",
+        "composer_input_disabled":false,
+        "call_to_actions":[
+        {
+          "type":"postback",
+          "title":"Register Books",
+          "payload":"Hit1"
+
+        },
+        {
+          "type":"postback",
+          "title":"Show Book List",
+          "payload":"Hit1"
+
+        },
+        {
+          "type":"web_url",
+          "title":"Visit Page",
+          "url":"https://mym-acavxb.firebaseapp.com/index.html",
+          "webview_height_ratio":"tall"
+
+        }
+      ]
+  
+    }
+  ]
+}).then(function(success) {
+  console.log('persistent_menu.success');
+  // body...
+})
+
+
+
 })
 
 
@@ -298,6 +342,9 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback){
         var userInput=webhook_event.postback.payload;
+               
+
+
         }
     if (webhook_event.message) 
     	{
