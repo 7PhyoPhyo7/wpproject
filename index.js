@@ -4,6 +4,7 @@ const
   express = require('express'),
   requestify = require('requestify'),
   body_parser = require('body-parser'),
+  request = require('request'),
   ejs = require("ejs"),
   har = require('har-validator'),
   promise = require('promise'),
