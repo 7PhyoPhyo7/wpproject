@@ -471,8 +471,10 @@ const callSendAPI = (sender_psid, response) => {
   }
   
   return new Promise(resolve => {
+    try
+    {
     request({
-      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "uri": "https://graph.facebook.com/v6.0/me/messages",
       "qs": { "access_token": PAGE_ACCESS_TOKEN },
       "method": "POST",
       "json": request_body
@@ -482,17 +484,18 @@ const callSendAPI = (sender_psid, response) => {
       } else {
         console.error("Unable to send message:" + err);
       }
-    }); 
+    });
+    }
+    catch (err) {
+    next(err);
+  } 
   });
 }
 
 async function callSend(sender_psid, response){
-  try
-  {
+ 
   let send = await callSendAPI(sender_psid, response);
   return 1;
-  }
-  catch (err) {
-    next(err);
-  }
+ 
+  
 }
